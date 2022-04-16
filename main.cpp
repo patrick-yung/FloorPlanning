@@ -113,8 +113,9 @@ int main() {
     string v="";
     string b="";
   //Declare items//
-  stack<int> pinx,piny, pin;
-    stack<int> tapx,tapy, tap;
+    vector<int> pinx,piny,pin;
+    vector<int> tapx,tapy,tap;
+
     string nothing;
     int time, load, size,c,x,y, ind, tmp;
   //Read files input//
@@ -123,18 +124,29 @@ int main() {
     input>>nothing>>size;
     input>>nothing>>c;
     input>>nothing>>tmp;
+  
+    pin.resize(tmp);
+    pinx.resize(tmp);
+    piny.resize(tmp);
+
     for(int n=0;n<tmp;n++){
       input>>nothing>>ind>>x>>y;
-      pin.push(ind);
-      pinx.push(x);
-      piny.push(y);
+      pin[n]=ind;
+      pinx[n]=x;
+      piny[n]=y;
+
     }
     input>>nothing>>tmp;
+
+  tap.resize(tmp);
+  tapx.resize(tmp);
+  tapy.resize(tmp);
+  
     for(int n=0;n<tmp;n++){
       input>>nothing>>ind>>x>>y;
-      tap.push(ind);
-      tapx.push(x);
-      tapy.push(y);
+      tap[n]=ind;
+      tapx[n]=x;
+      tapy[n]=y;
     }
     input.close();
     
@@ -146,27 +158,16 @@ int main() {
           map[i][j]=0;
         }
     }
-        //Put Pins//
-    while(!pinx.empty()){
-        x=pinx.top();
-        y=piny.top();
-        ind=pin.top();
-        map[x][y]=ind+1;
-        pinx.pop();
-        piny.pop();
-        pin.pop();
-    }
-        //Put tap//
-    while(!tap.empty()){
-      cout<<"HELLO";
-        x=tapx.top();
-        y=tapy.top();
-        ind=tap.top();
-        map[x][y]=-ind-1;
-        tapx.pop();
-        tapy.pop();
-        tap.pop();
-    }
+  //Put Pins//
+  for(int n=0;n<pinx.size();n++){
+    map[pinx[n]][piny[n]]=pin[n]+1;
+  }
+  //Put Tap//
+
+  for(int n=0;n<tapx.size();n++){
+    map[tapx[n]][tapy[n]]=-tap[n]-1;
+  }
+
 
   
   //Draw out the array//
