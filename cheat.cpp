@@ -32,7 +32,7 @@ void print(vector<vector<int>> map, int size){
     cout<<endl;
   }
 }
-bool solveMazeUtil(
+bool solve(
     vector<vector<int>> map, int x,
     int y, vector<vector<int>> sol, int size, int tap);
 
@@ -55,12 +55,11 @@ bool isSafe(vector<vector<int>> maze, int x, int y, int N, int tap, int start)
 
 
 
-bool solveMazeUtilTL(
+bool solve(
     vector<vector<int>> maze, int x,
     int y, vector<vector<int>> sol, int size, int tap, int start){
         if(x==size||y==size)
-            return false;
-
+           return false;
     if (
         x == 5 && y == 2
         && maze[x][y] == tap) {
@@ -80,20 +79,14 @@ bool solveMazeUtilTL(
               return false;
 
         sol[x][y] = tap;
-      
- 
-        if (solveMazeUtilTL(
+        if (solve(
                 maze, x + 1, y, sol,size,tap, start)
             == true)
             return true;
- 
-
-        if (solveMazeUtilTL(
+        if (solve(
                 maze, x, y + 1, sol,size,tap, start)
             == true)
             return true;
-       
-
         sol[x][y] = 0;
         return false;
     }
@@ -114,7 +107,7 @@ bool solveMaze(vector<vector<int>> map, int size,vector<int> pinx, vector<int> p
   for(int n=0;n<8;n++){
     cout<<piny[n]<<" "<<pinx[n]<<" "<<pin[n]<<endl;
       if(piny[n]<=2 && pinx[n]<=5){
-        if (solveMazeUtilTL(
+        if (solve(
                 map, pinx[n], piny[n], sol,size, -2, pin[n]+1)
             == false) {
     cout<<piny[n]<<" "<<pinx[n]<<" "<<pin[n];
@@ -126,18 +119,19 @@ bool solveMaze(vector<vector<int>> map, int size,vector<int> pinx, vector<int> p
 
    print(final,size);
 
-
-
     return true;
 }
 
 
 
 
-int main() { 
+int main(int argc, char** argv)
+{
+
+
   //Open the files
    ifstream input; 
-   input.open("input.txt"); 
+   input.open(argv[2]); 
     string v="";
     string b="";
   //Declare items//
@@ -180,9 +174,9 @@ int main() {
     
    
   
-ofstream outfile ("output.txt");
+ofstream outfile (argv[4]);
   outfile<<"TAP 0\n";
-  outfile<<"TAP "<<tapx.size()<<endl;
+  outfile<<"PINS "<<pinx.size()<<endl;
   for(int n=0;n<pinx.size();n++){
     outfile<<"PIN "<<n<<endl;
   }
@@ -191,7 +185,7 @@ ofstream outfile ("output.txt");
     outfile<<"EDGE "<<pinx[n]<<" "<<piny[n]<<" "<<pinx[n]<< " "<<size-1<<endl;
   }
   outfile<<"EDGE "<<tapx[0]<<" "<<tapy[0]<<" "<<tapx[0]<< " "<<size-1<<endl;
-  outfile<<"EDGE 0"<<" 0"<<" "<<size-1<< " 0"<<endl;
+  outfile<<"EDGE 0 "<<size-1<<" "<<size-1<<" "<< size-1 <<endl;
   
   outfile.close();
   
