@@ -1,2 +1,1 @@
-# FloorPlanning
-dad usadsahkgdgdjhsahdgasgdjhs
+To complie the program, I used Developer Command Prompt for VS 2019 and complie the program with "cl.exe cts.cpp." Afterward it would generate a cts.exe file. Afterward, using the command propt, type "./cts --input XXXX.in --output XXXX.out" to run the program and a XXXX.out file would be generated. INPUT FILE NAME and output file name could be anything, but please make sure there is 4 argument input for cts.exe (include --input *space* inputfile *space* --output *space* output file)
