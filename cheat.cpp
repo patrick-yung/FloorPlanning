@@ -8,6 +8,106 @@ using namespace std;
 
 int size=1;
 
+void lee(vector<vector<int>> maze, int pinx,int piny, int tagx,int tagy){
+  vector<vector<int>> visit;
+  visit.resize(maze.size(), vector<int>(maze.size()));
+
+  int target=maze[tagx][tagy];
+  cout<<"TARGET: "<<target<<endl;
+  for(int a=0;a<maze.size();a++)
+    for(int b=0;b<maze.size();b++)
+      visit[a][b]=0;
+
+  vector<int> x,y,newx,newy;
+  x.push_back(pinx);
+  y.push_back(piny);
+  int loop=0;
+  
+  while(loop==0){
+      int size=x.size();
+      for(int n=0;n<size;n++){
+        //Check right//
+
+        if(x[n]+1<maze.size()&& maze[x[n]+1][y[n]]==target){
+            loop++;
+            break;
+          }
+        if(x[n]+1<maze.size() && 
+          (visit[x[n]+1][y[n]]>visit[x[n]][y[n]]+1&& maze[x[n]+1][y[n]]==0)
+          ||(visit[x[n]+1][y[n]]==0 && !(x[n]+1==pinx && y[n]==piny))
+          ){
+          
+          visit[x[n]+1][y[n]]=visit[x[n]][y[n]]+1;
+          newx.push_back(x[n]+1);
+          newy.push_back(y[n]);
+          }
+          
+        if(x[n]-1>=0 && maze[x[n]-1][y[n]]==target){
+            loop++;
+            break;
+          }
+        //Check Left//
+  if(x[n]-1>=0 && 
+          (visit[x[n]-1][y[n]]>visit[x[n]][y[n]]+1         && maze[x[n]-1][y[n]]==0)
+    ||(visit[x[n]-1][y[n]]==0 && x[n]-1!=pinx && !(x[n]-1==pinx && y[n]==piny))
+          ){
+          visit[x[n]-1][y[n]]=visit[x[n]][y[n]]+1;
+          newx.push_back(x[n]-1);
+          newy.push_back(y[n]);
+          }
+        
+        if(y[n]+1<maze.size() && maze[x[n]][y[n]+1]==target){
+            loop++;
+            break;
+          }
+        //Check Top//
+        
+        if(y[n]+1<maze.size() && 
+          (visit[x[n]][y[n]+1]>visit[x[n]][y[n]] +1        && maze[x[n]][y[n]+1]==0)
+          ||(visit[x[n]][y[n]+1]==0  && !(x[n]==pinx && y[n]+1==piny))
+          ){
+          
+          visit[x[n]][y[n]+1]=visit[x[n]][y[n]]+1;
+          newx.push_back(x[n]);
+          newy.push_back(y[n]+1);
+          }
+        
+        
+        //Check down//
+        if(y[n]-1>=0 && maze[x[n]][y[n]-1]==target){
+            loop++;
+            break;
+          }
+  if(y[n]-1>=0 && 
+          (y[n]-1>=0 &&visit[x[n]][y[n]-1]>visit[x[n]][y[n]]+1         && maze[x[n]][y[n]-1]==0)
+    ||(y[n]-1>=0 &&visit[x[n]][y[n]-1]==0 &&  !(x[n]==pinx && y[n]-1==piny))
+          ){
+          visit[x[n]][y[n]-1]=visit[x[n]][y[n]]+1;
+          newx.push_back(x[n]);
+          newy.push_back(y[n]-1);
+          }
+      }
+    
+   
+    
+    x.clear();
+    y.clear();
+    for(int n=0;n<newx.size();n++){
+      x.push_back(newx[n]);
+      y.push_back(newy[n]);
+    }
+    
+    newx.clear();
+    newy.clear();
+    
+    
+  }
+    
+    
+    
+} 
+
+
 vector<vector<int>> final;
 void print(vector<vector<int>> map, int size){
     cout<<endl;
@@ -182,10 +282,10 @@ ofstream outfile (argv[4]);
   }
   outfile<<"ROUTING "<<pinx.size()+2<<endl;
   for(int n=0;n<pinx.size();n++){
-    outfile<<"EDGE "<<pinx[n]<<" "<<piny[n]<<" "<<pinx[n]<< " "<<size-1<<endl;
+    outfile<<"EDGE "<<pinx[n]<<" "<<piny[n]<<" "<<pinx[n]<< " "<<tapy[0]<<endl;
   }
-  outfile<<"EDGE "<<tapx[0]<<" "<<tapy[0]<<" "<<tapx[0]<< " "<<size-1<<endl;
-  outfile<<"EDGE 0 "<<size-1<<" "<<size-1<<" "<< size-1 <<endl;
+  outfile<<"EDGE "<<tapx[0]<<" "<<tapy[0]<<" "<<tapx[0]<< " "<<tapy[0]<<endl;
+  outfile<<"EDGE 0 "<<tapy[0]<<" "<<size-1<<" "<< tapy[0] <<endl;
   
   outfile.close();
   
